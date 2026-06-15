@@ -18,3 +18,7 @@ sns.countplot(
 )
 
 st.pyplot(fig)
+
+st.subheader("PCA Visualization")
+
+st.image("pca_visualization.png")
