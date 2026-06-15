@@ -6,6 +6,9 @@ import pickle
 with open("../models/random_forest_model.pkl", "rb") as file:
     model = pickle.load(file)
 
+with open("../models/scaler.pkl", "rb") as file:
+    scaler = pickle.load(file)
+    
 st.title("🔮 Customer Churn Prediction")
 
 gender = st.selectbox("Gender", [0, 1])
@@ -99,7 +102,8 @@ if st.button("Predict Churn"):
         'TotalCharges'
     ])
 
-    prediction = model.predict(input_data)
+    input_scaled = scaler.transform(input_data)
+    prediction = model.predict(input_scaled)
 
     if prediction[0] == 1:
         st.error("🔴 Customer Likely To Churn")
