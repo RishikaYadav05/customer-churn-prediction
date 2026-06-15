@@ -1,9 +1,10 @@
 import streamlit as st
 import pandas as pd
-import joblib
+import pickle
 
 # Load model
-model = joblib.load("../models/random_forest_model.pkl")
+with open("../models/random_forest_model.pkl", "rb") as file:
+    model = pickle.load(file)
 
 st.title("🔮 Customer Churn Prediction")
 
