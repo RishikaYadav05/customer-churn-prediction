@@ -1,13 +1,21 @@
 import streamlit as st
 import pandas as pd
 import pickle
+from pathlib import Path
 
-# Load model
-with open("../models/random_forest_model.pkl", "rb") as file:
+# ------------------------
+# Load Model and Scaler
+# ------------------------
+
+BASE_DIR = Path(__file__).resolve().parents[2]
+
+MODEL_PATH = BASE_DIR / "models" / "random_forest_model.pkl"
+SCALER_PATH = BASE_DIR / "models" / "scaler.pkl"
+
+with open(MODEL_PATH, "rb") as file:
     model = pickle.load(file)
 
-# Load scaler
-with open("../models/scaler.pkl", "rb") as file:
+with open(SCALER_PATH, "rb") as file:
     scaler = pickle.load(file)
 
 st.title("🔮 Customer Churn Prediction")
@@ -193,10 +201,8 @@ if st.button("Predict Churn"):
         'TotalCharges'
     ])
 
-    # Scale input
     input_scaled = scaler.transform(input_data)
 
-    # Predict
     prediction = model.predict(input_scaled)
 
     if prediction[0] == 1:
