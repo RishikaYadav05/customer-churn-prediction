@@ -6,44 +6,131 @@ import pickle
 with open("../models/random_forest_model.pkl", "rb") as file:
     model = pickle.load(file)
 
+# Load scaler
 with open("../models/scaler.pkl", "rb") as file:
     scaler = pickle.load(file)
-    
+
 st.title("🔮 Customer Churn Prediction")
 
-gender = st.selectbox("Gender", [0, 1])
+st.write("Enter customer details below:")
 
-senior = st.selectbox("Senior Citizen", [0, 1])
+# ------------------------
+# Customer Information
+# ------------------------
 
-partner = st.selectbox("Partner", [0, 1])
+gender_text = st.selectbox(
+    "Gender",
+    ["Female", "Male"]
+)
+gender = 0 if gender_text == "Female" else 1
 
-dependents = st.selectbox("Dependents", [0, 1])
+senior_text = st.selectbox(
+    "Senior Citizen",
+    ["No", "Yes"]
+)
+senior = 0 if senior_text == "No" else 1
 
-tenure = st.slider("Tenure", 0, 72, 12)
+partner_text = st.selectbox(
+    "Partner",
+    ["No", "Yes"]
+)
+partner = 0 if partner_text == "No" else 1
 
-phone_service = st.selectbox("Phone Service", [0, 1])
+dependents_text = st.selectbox(
+    "Dependents",
+    ["No", "Yes"]
+)
+dependents = 0 if dependents_text == "No" else 1
 
-multiple_lines = st.selectbox("Multiple Lines", [0, 1, 2])
+# ------------------------
+# Service Details
+# ------------------------
 
-internet_service = st.selectbox("Internet Service", [0, 1, 2])
+tenure = st.slider(
+    "Tenure (Months)",
+    min_value=0,
+    max_value=72,
+    value=12
+)
 
-online_security = st.selectbox("Online Security", [0, 1, 2])
+phone_text = st.selectbox(
+    "Phone Service",
+    ["No", "Yes"]
+)
+phone_service = 0 if phone_text == "No" else 1
 
-online_backup = st.selectbox("Online Backup", [0, 1, 2])
+multiple_lines = st.selectbox(
+    "Multiple Lines (Encoded)",
+    [0, 1, 2]
+)
 
-device_protection = st.selectbox("Device Protection", [0, 1, 2])
+internet_service = st.selectbox(
+    "Internet Service (Encoded)",
+    [0, 1, 2]
+)
 
-tech_support = st.selectbox("Tech Support", [0, 1, 2])
+online_security = st.selectbox(
+    "Online Security (Encoded)",
+    [0, 1, 2]
+)
 
-streaming_tv = st.selectbox("Streaming TV", [0, 1, 2])
+online_backup = st.selectbox(
+    "Online Backup (Encoded)",
+    [0, 1, 2]
+)
 
-streaming_movies = st.selectbox("Streaming Movies", [0, 1, 2])
+device_protection = st.selectbox(
+    "Device Protection (Encoded)",
+    [0, 1, 2]
+)
 
-contract = st.selectbox("Contract", [0, 1, 2])
+tech_support = st.selectbox(
+    "Tech Support (Encoded)",
+    [0, 1, 2]
+)
 
-paperless = st.selectbox("Paperless Billing", [0, 1])
+streaming_tv = st.selectbox(
+    "Streaming TV (Encoded)",
+    [0, 1, 2]
+)
 
-payment = st.selectbox("Payment Method", [0, 1, 2, 3])
+streaming_movies = st.selectbox(
+    "Streaming Movies (Encoded)",
+    [0, 1, 2]
+)
+
+# ------------------------
+# Billing Details
+# ------------------------
+
+contract_text = st.selectbox(
+    "Contract Type",
+    [
+        "Month-to-Month",
+        "One Year",
+        "Two Year"
+    ]
+)
+
+contract_map = {
+    "Month-to-Month": 0,
+    "One Year": 1,
+    "Two Year": 2
+}
+
+contract = contract_map[contract_text]
+
+paperless_text = st.selectbox(
+    "Paperless Billing",
+    ["No", "Yes"]
+)
+
+paperless = 0 if paperless_text == "No" else 1
+
+payment = st.selectbox(
+    "Payment Method (Encoded)",
+    [0, 1, 2, 3]
+)
 
 monthly = st.number_input(
     "Monthly Charges",
@@ -57,6 +144,10 @@ total = st.number_input(
     min_value=0.0,
     value=1000.0
 )
+
+# ------------------------
+# Prediction
+# ------------------------
 
 if st.button("Predict Churn"):
 
@@ -102,10 +193,19 @@ if st.button("Predict Churn"):
         'TotalCharges'
     ])
 
+    # Scale input
     input_scaled = scaler.transform(input_data)
+
+    # Predict
     prediction = model.predict(input_scaled)
 
     if prediction[0] == 1:
         st.error("🔴 Customer Likely To Churn")
+        st.warning(
+            "Retention actions are recommended for this customer."
+        )
     else:
         st.success("🟢 Customer Likely To Stay")
+        st.info(
+            "This customer is likely to remain with the company."
+        )
