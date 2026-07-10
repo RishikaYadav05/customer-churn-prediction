@@ -315,13 +315,6 @@ _Add screenshot here_
 
 **Rishika Yadav**
 
-**B.Tech – Artificial Intelligence & Machine Learning**
-
-LNCT Bhopal
-
-GitHub: https://github.com/YOUR_USERNAME
-
-LinkedIn: https://www.linkedin.com/in/YOUR_LINKEDIN
 
 ---
 
@@ -330,5 +323,3 @@ LinkedIn: https://www.linkedin.com/in/YOUR_LINKEDIN
 This project is developed for educational and learning purposes.
 
 ---
-
-## ⭐ If you found this project helpful, don't forget to star the repository!
