@@ -184,10 +184,6 @@ pickle
 
 Rishika Yadav
 
-B.Tech – Artificial Intelligence & Machine Learning
-
-LNCT Bhopal
-
 GitHub:
 https://github.com/RishikaYadav05
 
